@@ -102,6 +102,7 @@ namespace CustomUI.Controls
         }
 
         #endregion
+
         #region Create Round Rectangle
         //Snippet inspirat de Rod Stephens
 
