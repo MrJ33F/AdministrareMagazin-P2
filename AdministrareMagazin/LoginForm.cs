@@ -13,8 +13,7 @@ namespace AdministrareMagazin
     public partial class LoginForm : Form
     {
 
-        private bool mouseDown;
-        private Point lastMouseLocation;
+       
 
         public LoginForm()
         {
