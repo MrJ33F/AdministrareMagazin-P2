@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using AdministrareMagazin.Classes.Natives;
 using AdministrareMagazin.Classes.EF;
 using System.Security.Permissions;
 
-namespace AdministrareMagazin.Forms
+namespace AdministrareMagazin.Forms.FormsAdmin
 {
-    public partial class NewUser : Form
+    public partial class UpdateProdus : Form
     {
-
         #region Fields
 
         private readonly Timer tmrFadeIn;
@@ -32,26 +32,17 @@ namespace AdministrareMagazin.Forms
 
         #endregion
 
-        public NewUser()
+
+        public UpdateProdus()
         {
+
             InitializeComponent();
-
-
+            LoadData();
             //Setari animator
             Animator.AnimationType = AnimatorNS.AnimationType.Transparent;
             Animator.Interval = 0;
             Animator.MaxAnimationTime = 1000;
             Animator.TimeStep = 0.02F;
-
-            addUserButton.Enabled = false;
-            usernameTextBox.TextChanged += ValidateInput;
-            passwordTextBox.TextChanged += ValidateInput;
-            emailTextBox.TextChanged += ValidateInput;
-            numeTextBox.TextChanged += ValidateInput;
-            prenumeTextBox.TextChanged += ValidateInput;
-            adresaTextBox.TextChanged += ValidateInput;
-            telefonTextBox.TextChanged += ValidateInput;
-
 
             //Setam opacitatea la form la 0 si dam drumul la timer, urmand ca acesta sa se incrementeze in momentul cand aplicatia se deschide
             Opacity = 0;
@@ -64,7 +55,6 @@ namespace AdministrareMagazin.Forms
 
             tmrFadeIn.Tick += FadeIn_Tick;
         }
-
         #region Metode
 
         private void FadeIn_Tick(object sender, EventArgs e)
@@ -78,63 +68,25 @@ namespace AdministrareMagazin.Forms
                 tmrFadeIn.Tick -= FadeIn_Tick;
             }
         }
-
-        private void ValidateInput(object sender, EventArgs e)
+        private void LoadData()
         {
-            addUserButton.Enabled = !(usernameTextBox.Text == String.Empty && passwordTextBox.Text == String.Empty && emailTextBox.Text == String.Empty && numeTextBox.Text == String.Empty && prenumeTextBox.Text == String.Empty
-                 && adresaTextBox.Text == String.Empty && telefonTextBox.Text == String.Empty);
+            using (MagazinDbContext db = new MagazinDbContext())
+            {
+                var res = from s in db.Produse
+                          select new
+                          {
+                              s.Id,
+                              s.Denumire,
+                              s.DescriereProdus,
+                              s.DataIntrare,
+                              s.DataValabilitate,
+                              s.Cantitate
+
+                          };
+                dataMagazin.DataSource = res.ToList();
+            }
         }
         #endregion
-
-        private void addUserButton_Click(object sender, EventArgs e)
-        {
-            using(UtilizatorDbContext context = new UtilizatorDbContext())
-            {
-                if(context.Utilizatori.Any(item => item.Username == usernameTextBox.Text))
-                {
-                    MessageBox.Show("Eroare", "Username folosit!");
-                    usernameTextBox.Text = "";
-                    this.Close();
-                }
-                else
-                {
-                    Utilizator u = new Utilizator();
-                    u.Username = usernameTextBox.Text;
-                    u.Password = passwordTextBox.Text;
-                    u.Email = emailTextBox.Text;
-                    u.Nume = numeTextBox.Text;
-                    u.Prenume = prenumeTextBox.Text;
-                    u.Adresa = adresaTextBox.Text;
-                    u.Telefon = telefonTextBox.Text;
-
-                    context.Utilizatori.Add(u);
-                    context.SaveChanges();
-                }
-            }
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void NewUser_Shown(object sender, EventArgs e)
-        {
-            // Animam controalele care au propietatea de visible = false dupa ce formul a fost incarcat si a devenit vizibil.
-            foreach (Control item in cPanel1.Controls)
-            {
-                if (item.Visible != true) Animator.Show(item);
-            }
-        }
-
-        private void NewUser_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            tmrFadeIn.Tick -= FadeIn_Tick;
-            usernameTextBox.TextChanged -= ValidateInput;
-            passwordTextBox.TextChanged -= ValidateInput;
-            emailTextBox.TextChanged -= ValidateInput;
-            numeTextBox.TextChanged -= ValidateInput;
-            prenumeTextBox.TextChanged -= ValidateInput;
-            adresaTextBox.TextChanged -= ValidateInput;
-            telefonTextBox.TextChanged -= ValidateInput;
-        }
 
         #region Security Related
         //Verifica daca Desktop Window manager este enabled.
@@ -156,9 +108,6 @@ namespace AdministrareMagazin.Forms
                 aeroShadow = IsDwnCompositionEnabled();
 
                 var cp = base.CreateParams;
-
-                // WS_MINIMIZEBOX   : allows minimizing the software from the taskbar
-                // WS_EX_COMPOSITED : paints bottom-to-top. Reduces flicker greatly
 
                 cp.Style |= WS_MINIMIZEBOX;
                 cp.ExStyle |= WS_EX_COMPOSITED;
@@ -190,16 +139,68 @@ namespace AdministrareMagazin.Forms
                     }
                     break;
                 case NativeMethods.WindowsMessages.WM_NCACTIVATE:
-                    // Change the title bar text color according to whether the
-                    // window is active or inactive
                     if (m.WParam == IntPtr.Zero)
-                        newUserContainer.TitleBarColor = Color.DarkGray;
+                        updateContainer.TitleBarColor = Color.DarkGray;
                     else
-                        newUserContainer.TitleBarColor = Color.Gainsboro;
+                        updateContainer.TitleBarColor = Color.Gainsboro;
                     break;
             }
             base.WndProc(ref m);
         }
-        #endregion        
+        #endregion
+
+        private void deleteCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if(deleteCheck.Checked == true)
+            {
+                denumireText.Enabled = descriereText.Enabled = dataExp.Enabled = cantitateText.Enabled = false;
+            }
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            int id_Context = int.Parse(idText.Text);
+            using (var context = new MagazinDbContext())
+            {
+                if(deleteCheck.Checked == true)
+                {
+                    
+                    var entity = context.Produse.SingleOrDefault(item => item.Id == id_Context);
+                    if(entity != null)
+                    {
+                        context.Produse.Remove(entity);
+                        context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    if(context.Produse.Any(item => item.Id == id_Context))
+                    {
+                        ModificaProdus();
+                    }
+                }
+            }
+            DialogResult = DialogResult.OK;
+            this.Close();
+        }
+        private void ModificaProdus()
+        {
+            int id_Context = int.Parse(idText.Text);
+            using (var context = new MagazinDbContext())
+            {
+                var entity = context.Produse.FirstOrDefault(item => item.Id == id_Context);
+
+                if(entity != null)
+                {
+                    entity.Denumire = this.denumireText.Text;
+                    entity.DescriereProdus = this.descriereText.Text;
+                    entity.DataIntrare = DateTime.Now;
+                    entity.DataValabilitate = this.dataExp.Value;
+                    entity.Cantitate = int.Parse(this.cantitateText.Text);
+
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }

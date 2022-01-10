@@ -154,7 +154,6 @@ namespace AdministrareMagazin
             loginButton.Enabled = false;
 
             Animator.Hide(loginButton, true, AnimatorNS.Animation.HorizSlide);
-            Animator.Hide(linkForgotPass, true, AnimatorNS.Animation.Transparent);
             Animator.Hide(linkNewAccount, true, AnimatorNS.Animation.Transparent);
 
             Wait(4);
@@ -162,18 +161,43 @@ namespace AdministrareMagazin
             //Nu sunt sigur daca baza de date se transfera (e un failsafe hardcoded)
             if (usernameTextBox.Text == "admin" && passwordTextBox.Text == "admin0000")
             {
-                Administrator adm = new Administrator();
-                adm.Show();
                 this.Hide();
+                Administrator adm = new Administrator();
+                adm.ShowDialog();
+                if (adm.IsDisposed) Application.Exit();
+                else
+                {
+                    adm = null;
+                    this.Show();
+                    LoadLoginData();
+                }
+                
             }
             else
             {
-
+                using(var db = new UtilizatorDbContext())
+                {
+                    if( (db.Utilizatori.Any(item => item.Username == usernameTextBox.Text) || 
+                        db.Utilizatori.Any(item => item.Email == usernameTextBox.Text)) &&
+                        db.Utilizatori.Any(item => item.Password == passwordTextBox.Text))
+                    {
+                        var entity = db.Utilizatori.FirstOrDefault(item => item.Username == usernameTextBox.Text);
+                        this.Hide();
+                        InterfataClient ui = new InterfataClient(entity);
+                        ui.ShowDialog();
+                        if(ui.IsDisposed) Application.Exit();
+                        else
+                        {
+                            ui = null;
+                            this.Show();
+                            LoadLoginData();
+                        }
+                    }
+                }
             }
 
             Animator.Hide(labelLogginIn, true);
             Animator.Show(loginButton, true, AnimatorNS.Animation.HorizSlide);
-            Animator.Show(linkForgotPass, true, AnimatorNS.Animation.Transparent);
             Animator.Show(linkNewAccount, true, AnimatorNS.Animation.Transparent);
 
             usernameTextBox.Enabled = true;

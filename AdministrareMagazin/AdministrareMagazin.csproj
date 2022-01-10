@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\EF\CosCumparaturi.cs" />
     <Compile Include="Classes\EF\IstoricVanzari.cs" />
     <Compile Include="Classes\EF\Magazin.cs" />
     <Compile Include="Classes\EF\Utilizator.cs" />
@@ -70,6 +71,30 @@
     </Compile>
     <Compile Include="Forms\Administrator.Designer.cs">
       <DependentUpon>Administrator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\AddProdus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\AddProdus.Designer.cs">
+      <DependentUpon>AddProdus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\AddProdusTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\AddProdusTask.Designer.cs">
+      <DependentUpon>AddProdusTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\DeleteUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\DeleteUser.Designer.cs">
+      <DependentUpon>DeleteUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\UpdateProdus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormsAdmin\UpdateProdus.Designer.cs">
+      <DependentUpon>UpdateProdus.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\InterfataClient.cs">
       <SubType>Form</SubType>
@@ -93,6 +118,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Administrator.resx">
       <DependentUpon>Administrator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormsAdmin\AddProdus.resx">
+      <DependentUpon>AddProdus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormsAdmin\AddProdusTask.resx">
+      <DependentUpon>AddProdusTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormsAdmin\DeleteUser.resx">
+      <DependentUpon>DeleteUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormsAdmin\UpdateProdus.resx">
+      <DependentUpon>UpdateProdus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InterfataClient.resx">
       <DependentUpon>InterfataClient.cs</DependentUpon>
@@ -161,9 +198,7 @@
   <ItemGroup>
     <None Include="Resources\phone.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\FormsAdmin\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
