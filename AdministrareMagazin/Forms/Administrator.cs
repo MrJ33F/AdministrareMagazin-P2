@@ -286,8 +286,8 @@ namespace AdministrareMagazin.Forms
                 if(res != null)
                 {
                     descriereTextBox.Text = String.Format("{0}\n----------------\n{1}\n----------------\nCantitate: {2} bucati" +
-                        "\nData Expirare:{3}\n" +
-                        "Id[{4}] in DataBase.\n", res.Denumire, res.DescriereProdus, res.Cantitate, res.DataValabilitate.ToString(), res.Id); ;
+                        "\nData Expirare:{3}\n" + "Data Intrare: {4}\n"+
+                        "Id[{5}] in DataBase.\n", res.Denumire, res.DescriereProdus, res.Cantitate, res.DataValabilitate.ToString(), res.DataIntrare.ToString(), res.Id); ;
                 }
             }
         }

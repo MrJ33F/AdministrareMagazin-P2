@@ -90,17 +90,26 @@ namespace AdministrareMagazin.Forms
         {
             using(UtilizatorDbContext context = new UtilizatorDbContext())
             {
-                Utilizator u = new Utilizator();
-                u.Username = usernameTextBox.Text;
-                u.Password = passwordTextBox.Text;
-                u.Email = emailTextBox.Text;
-                u.Nume = numeTextBox.Text;
-                u.Prenume = prenumeTextBox.Text;
-                u.Adresa = adresaTextBox.Text;
-                u.Telefon = telefonTextBox.Text;
+                if(context.Utilizatori.Any(item => item.Username == usernameTextBox.Text))
+                {
+                    MessageBox.Show("Eroare", "Username folosit!");
+                    usernameTextBox.Text = "";
+                    this.Close();
+                }
+                else
+                {
+                    Utilizator u = new Utilizator();
+                    u.Username = usernameTextBox.Text;
+                    u.Password = passwordTextBox.Text;
+                    u.Email = emailTextBox.Text;
+                    u.Nume = numeTextBox.Text;
+                    u.Prenume = prenumeTextBox.Text;
+                    u.Adresa = adresaTextBox.Text;
+                    u.Telefon = telefonTextBox.Text;
 
-                context.Utilizatori.Add(u);
-                context.SaveChanges();
+                    context.Utilizatori.Add(u);
+                    context.SaveChanges();
+                }
             }
             this.DialogResult = DialogResult.OK;
             this.Close();

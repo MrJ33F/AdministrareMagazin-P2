@@ -33,26 +33,25 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.Animator = new AnimatorNS.Animator(this.components);
             this.loginContainer = new CustomUI.Controls.CContainer();
+            this.loginData = new System.Windows.Forms.DataGridView();
             this.cControlBox = new CustomUI.Controls.CControlBox();
             this.cRightPanel = new CustomUI.Controls.CPanel();
             this.cLinkLabel1 = new CustomUI.Controls.CLinkLabel();
             this.loginButton = new CustomUI.Controls.CButton();
+            this.labelLogginIn = new CustomUI.Controls.CLabel();
             this.cLabel3 = new CustomUI.Controls.CLabel();
             this.linkNewAccount = new CustomUI.Controls.CLinkLabel();
-            this.linkForgotPass = new CustomUI.Controls.CLinkLabel();
+            this.passwordTextBox = new CustomUI.CTextBox();
+            this.usernameTextBox = new CustomUI.CTextBox();
             this.loginToLabel = new CustomUI.Controls.CLabel();
             this.cLeftPanel = new CustomUI.Controls.CPanel();
             this.cLabel4 = new CustomUI.Controls.CLabel();
-            this.welcomeLabel = new CustomUI.Controls.CLabel();
-            this.loginData = new System.Windows.Forms.DataGridView();
-            this.labelLogginIn = new CustomUI.Controls.CLabel();
-            this.passwordTextBox = new CustomUI.CTextBox();
-            this.usernameTextBox = new CustomUI.CTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.welcomeLabel = new CustomUI.Controls.CLabel();
             this.loginContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loginData)).BeginInit();
             this.cRightPanel.SuspendLayout();
             this.cLeftPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loginData)).BeginInit();
             this.SuspendLayout();
             // 
             // Animator
@@ -97,6 +96,16 @@
             this.loginContainer.TextAlignment = CustomUI.Controls.CContainer.Alignment.Left;
             this.loginContainer.TitleBarColor = System.Drawing.Color.Gainsboro;
             // 
+            // loginData
+            // 
+            this.loginData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Animator.SetDecoration(this.loginData, AnimatorNS.DecorationType.None);
+            this.loginData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.loginData.Location = new System.Drawing.Point(402, 31);
+            this.loginData.Name = "loginData";
+            this.loginData.Size = new System.Drawing.Size(0, 436);
+            this.loginData.TabIndex = 11;
+            // 
             // cControlBox
             // 
             this.cControlBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -117,7 +126,6 @@
             this.cRightPanel.Controls.Add(this.labelLogginIn);
             this.cRightPanel.Controls.Add(this.cLabel3);
             this.cRightPanel.Controls.Add(this.linkNewAccount);
-            this.cRightPanel.Controls.Add(this.linkForgotPass);
             this.cRightPanel.Controls.Add(this.passwordTextBox);
             this.cRightPanel.Controls.Add(this.usernameTextBox);
             this.cRightPanel.Controls.Add(this.loginToLabel);
@@ -164,6 +172,22 @@
             this.loginButton.Text = "LOGIN";
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
+            // labelLogginIn
+            // 
+            this.labelLogginIn.AutoSize = true;
+            this.labelLogginIn.BackColor = System.Drawing.Color.Transparent;
+            this.Animator.SetDecoration(this.labelLogginIn, AnimatorNS.DecorationType.None);
+            this.labelLogginIn.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.labelLogginIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(118)))), ((int)(((byte)(127)))));
+            this.labelLogginIn.Image = global::AdministrareMagazin.Properties.Resources.spinner;
+            this.labelLogginIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelLogginIn.Location = new System.Drawing.Point(21, 190);
+            this.labelLogginIn.Name = "labelLogginIn";
+            this.labelLogginIn.Size = new System.Drawing.Size(93, 15);
+            this.labelLogginIn.TabIndex = 9;
+            this.labelLogginIn.Text = "         Loggin In...";
+            this.labelLogginIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // cLabel3
             // 
             this.cLabel3.AutoSize = true;
@@ -189,7 +213,7 @@
             this.linkNewAccount.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.linkNewAccount.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkNewAccount.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(93)))), ((int)(((byte)(89)))));
-            this.linkNewAccount.Location = new System.Drawing.Point(150, 192);
+            this.linkNewAccount.Location = new System.Drawing.Point(150, 181);
             this.linkNewAccount.Name = "linkNewAccount";
             this.linkNewAccount.Size = new System.Drawing.Size(309, 15);
             this.linkNewAccount.TabIndex = 7;
@@ -197,104 +221,6 @@
             this.linkNewAccount.Text = "Utilizator nou? Apasa-ti aici pentru a va crea un cont nou!";
             this.linkNewAccount.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(89)))), ((int)(((byte)(84)))));
             this.linkNewAccount.Click += new System.EventHandler(this.linkNewAccount_Click);
-            // 
-            // linkForgotPass
-            // 
-            this.linkForgotPass.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(89)))), ((int)(((byte)(84)))));
-            this.linkForgotPass.AutoSize = true;
-            this.linkForgotPass.BackColor = System.Drawing.Color.Transparent;
-            this.linkForgotPass.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.Animator.SetDecoration(this.linkForgotPass, AnimatorNS.DecorationType.None);
-            this.linkForgotPass.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.linkForgotPass.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkForgotPass.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(93)))), ((int)(((byte)(89)))));
-            this.linkForgotPass.Location = new System.Drawing.Point(150, 177);
-            this.linkForgotPass.Name = "linkForgotPass";
-            this.linkForgotPass.Size = new System.Drawing.Size(95, 15);
-            this.linkForgotPass.TabIndex = 6;
-            this.linkForgotPass.TabStop = true;
-            this.linkForgotPass.Text = "A-ti uitat parola?";
-            this.linkForgotPass.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(89)))), ((int)(((byte)(84)))));
-            // 
-            // loginToLabel
-            // 
-            this.loginToLabel.AutoSize = true;
-            this.loginToLabel.BackColor = System.Drawing.Color.Transparent;
-            this.Animator.SetDecoration(this.loginToLabel, AnimatorNS.DecorationType.None);
-            this.loginToLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loginToLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(171)))), ((int)(((byte)(176)))));
-            this.loginToLabel.Location = new System.Drawing.Point(253, 12);
-            this.loginToLabel.Name = "loginToLabel";
-            this.loginToLabel.Size = new System.Drawing.Size(281, 33);
-            this.loginToLabel.TabIndex = 2;
-            this.loginToLabel.Text = "Contectati-va la cont";
-            // 
-            // cLeftPanel
-            // 
-            this.cLeftPanel.Controls.Add(this.cLabel4);
-            this.cLeftPanel.Controls.Add(this.panel1);
-            this.cLeftPanel.Controls.Add(this.welcomeLabel);
-            this.cLeftPanel.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.Animator.SetDecoration(this.cLeftPanel, AnimatorNS.DecorationType.None);
-            this.cLeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cLeftPanel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.cLeftPanel.Location = new System.Drawing.Point(0, 31);
-            this.cLeftPanel.Name = "cLeftPanel";
-            this.cLeftPanel.Side = CustomUI.Controls.CPanel.PanelSide.Left;
-            this.cLeftPanel.Size = new System.Drawing.Size(402, 436);
-            this.cLeftPanel.TabIndex = 0;
-            // 
-            // cLabel4
-            // 
-            this.cLabel4.AutoSize = true;
-            this.cLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.Animator.SetDecoration(this.cLabel4, AnimatorNS.DecorationType.None);
-            this.cLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(171)))), ((int)(((byte)(176)))));
-            this.cLabel4.Location = new System.Drawing.Point(15, 412);
-            this.cLabel4.Name = "cLabel4";
-            this.cLabel4.Size = new System.Drawing.Size(343, 15);
-            this.cLabel4.TabIndex = 2;
-            this.cLabel4.Text = "Groza Cosmin-Gabriel - Anul II - Proiect Administrare Magazin";
-            // 
-            // welcomeLabel
-            // 
-            this.welcomeLabel.AutoSize = true;
-            this.welcomeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.Animator.SetDecoration(this.welcomeLabel, AnimatorNS.DecorationType.None);
-            this.welcomeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.welcomeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.welcomeLabel.Location = new System.Drawing.Point(12, 254);
-            this.welcomeLabel.Name = "welcomeLabel";
-            this.welcomeLabel.Size = new System.Drawing.Size(384, 33);
-            this.welcomeLabel.TabIndex = 0;
-            this.welcomeLabel.Text = "Bine ati venit la cumparaturi!";
-            // 
-            // loginData
-            // 
-            this.loginData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Animator.SetDecoration(this.loginData, AnimatorNS.DecorationType.None);
-            this.loginData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.loginData.Location = new System.Drawing.Point(402, 31);
-            this.loginData.Name = "loginData";
-            this.loginData.Size = new System.Drawing.Size(0, 436);
-            this.loginData.TabIndex = 11;
-            // 
-            // labelLogginIn
-            // 
-            this.labelLogginIn.AutoSize = true;
-            this.labelLogginIn.BackColor = System.Drawing.Color.Transparent;
-            this.Animator.SetDecoration(this.labelLogginIn, AnimatorNS.DecorationType.None);
-            this.labelLogginIn.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.labelLogginIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(118)))), ((int)(((byte)(127)))));
-            this.labelLogginIn.Image = global::AdministrareMagazin.Properties.Resources.spinner;
-            this.labelLogginIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelLogginIn.Location = new System.Drawing.Point(21, 190);
-            this.labelLogginIn.Name = "labelLogginIn";
-            this.labelLogginIn.Size = new System.Drawing.Size(93, 15);
-            this.labelLogginIn.TabIndex = 9;
-            this.labelLogginIn.Text = "         Loggin In...";
-            this.labelLogginIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // passwordTextBox
             // 
@@ -342,6 +268,47 @@
             this.usernameTextBox.Watermark = "Username sau Email";
             this.usernameTextBox.WatermarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(120)))), ((int)(((byte)(129)))));
             // 
+            // loginToLabel
+            // 
+            this.loginToLabel.AutoSize = true;
+            this.loginToLabel.BackColor = System.Drawing.Color.Transparent;
+            this.Animator.SetDecoration(this.loginToLabel, AnimatorNS.DecorationType.None);
+            this.loginToLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginToLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(171)))), ((int)(((byte)(176)))));
+            this.loginToLabel.Location = new System.Drawing.Point(253, 12);
+            this.loginToLabel.Name = "loginToLabel";
+            this.loginToLabel.Size = new System.Drawing.Size(281, 33);
+            this.loginToLabel.TabIndex = 2;
+            this.loginToLabel.Text = "Contectati-va la cont";
+            // 
+            // cLeftPanel
+            // 
+            this.cLeftPanel.Controls.Add(this.cLabel4);
+            this.cLeftPanel.Controls.Add(this.panel1);
+            this.cLeftPanel.Controls.Add(this.welcomeLabel);
+            this.cLeftPanel.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.Animator.SetDecoration(this.cLeftPanel, AnimatorNS.DecorationType.None);
+            this.cLeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cLeftPanel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.cLeftPanel.Location = new System.Drawing.Point(0, 31);
+            this.cLeftPanel.Name = "cLeftPanel";
+            this.cLeftPanel.Side = CustomUI.Controls.CPanel.PanelSide.Left;
+            this.cLeftPanel.Size = new System.Drawing.Size(402, 436);
+            this.cLeftPanel.TabIndex = 0;
+            // 
+            // cLabel4
+            // 
+            this.cLabel4.AutoSize = true;
+            this.cLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.Animator.SetDecoration(this.cLabel4, AnimatorNS.DecorationType.None);
+            this.cLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(171)))), ((int)(((byte)(176)))));
+            this.cLabel4.Location = new System.Drawing.Point(15, 412);
+            this.cLabel4.Name = "cLabel4";
+            this.cLabel4.Size = new System.Drawing.Size(343, 15);
+            this.cLabel4.TabIndex = 2;
+            this.cLabel4.Text = "Groza Cosmin-Gabriel - Anul II - Proiect Administrare Magazin";
+            // 
             // panel1
             // 
             this.panel1.BackgroundImage = global::AdministrareMagazin.Properties.Resources.logo1;
@@ -351,6 +318,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(224, 165);
             this.panel1.TabIndex = 1;
+            // 
+            // welcomeLabel
+            // 
+            this.welcomeLabel.AutoSize = true;
+            this.welcomeLabel.BackColor = System.Drawing.Color.Transparent;
+            this.Animator.SetDecoration(this.welcomeLabel, AnimatorNS.DecorationType.None);
+            this.welcomeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.welcomeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.welcomeLabel.Location = new System.Drawing.Point(12, 254);
+            this.welcomeLabel.Name = "welcomeLabel";
+            this.welcomeLabel.Size = new System.Drawing.Size(384, 33);
+            this.welcomeLabel.TabIndex = 0;
+            this.welcomeLabel.Text = "Bine ati venit la cumparaturi!";
             // 
             // LoginForm
             // 
@@ -367,11 +347,11 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Shown += new System.EventHandler(this.LoginForm_Shown);
             this.loginContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.loginData)).EndInit();
             this.cRightPanel.ResumeLayout(false);
             this.cRightPanel.PerformLayout();
             this.cLeftPanel.ResumeLayout(false);
             this.cLeftPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loginData)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -388,7 +368,6 @@
         private CustomUI.CTextBox usernameTextBox;
         private CustomUI.CTextBox passwordTextBox;
         private CustomUI.Controls.CButton loginButton;
-        private CustomUI.Controls.CLinkLabel linkForgotPass;
         private CustomUI.Controls.CLinkLabel linkNewAccount;
         private CustomUI.Controls.CLabel cLabel3;
         private CustomUI.Controls.CLabel cLabel4;
