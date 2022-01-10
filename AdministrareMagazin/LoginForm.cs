@@ -162,7 +162,9 @@ namespace AdministrareMagazin
             //Nu sunt sigur daca baza de date se transfera (e un failsafe hardcoded)
             if (usernameTextBox.Text == "admin" && passwordTextBox.Text == "admin0000")
             {
-
+                Administrator adm = new Administrator();
+                adm.Show();
+                this.Hide();
             }
             else
             {
