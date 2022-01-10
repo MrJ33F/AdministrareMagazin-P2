@@ -3,13 +3,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using System;
 
-namespace CustomUI.Controls
+namespace CustomUI
 {
     [DefaultEvent("TextChanged")]
-    public class CTextBox : TextBox
+    public class CTextBox : Control
     {
         #region Fields
-        
+
         private TextBox tbCtrl = new TextBox();
         private Color borderColor;
         private Panel watermarkContainer;
@@ -18,12 +18,12 @@ namespace CustomUI.Controls
         #region Properties
 
         [Browsable(true)]
-        [Description("Decide daca borderele de sus si jos trebuie recolorate cand se apasa Enter.")]
+        [Description("Decides whether the top and bottom border lines are recolored on Enter event.")]
         public bool ColorBordersOnEnter { get; set; } = true;
 
         private Image _Image;
-        [Browsable (true)]
-        [Description("Imagina afisata in TextBox")]
+        [Browsable(true)]
+        [Description("The image displayed in the TextBox.")]
         public Image Image
         {
             get { return _Image; }
@@ -37,56 +37,59 @@ namespace CustomUI.Controls
             }
         }
 
-        protected Size ImageSize { get; set; }
+        protected Size ImageSize { get; private set; }
 
         private int _MaxLength = 32767;
         [Browsable(true)]
-        [Description("Specifica maximul de caractere care pot fi introduse in edit control.")]
+        [Description("Specifies the maximum number of characters that can be entered into the edit control.")]
         public int MaxLength
         {
             get { return _MaxLength; }
             set
             {
                 _MaxLength = value;
-                tbCtrl.MaxLength = _MaxLength; ;
+                tbCtrl.MaxLength = MaxLength;
                 Invalidate();
             }
         }
 
-        private bool _MultiLine;
+        private bool _Multiline;
         [Browsable(true)]
-        [Description("Controleaza daca textul din edit control poate sa fie mai mult de o linie.")]
+        [Description("Controls whether the text of the edit control can span more than one line.")]
         public bool Multiline
         {
-            get { return _MultiLine; }
+            get { return _Multiline; }
             set
             {
-                _MultiLine = value;
-                if(tbCtrl != null)
+                _Multiline = value;
+                if (tbCtrl != null)
                 {
                     tbCtrl.Multiline = value;
-                    if (value) tbCtrl.Height = Height - 10;
-                    else Height = tbCtrl.Height + 10;
+                    if (value)
+                        tbCtrl.Height = Height - 10;
+                    else
+                        Height = tbCtrl.Height + 10;
                 }
             }
         }
 
         private bool _ReadOnly;
         [Browsable(true)]
-        [Description("Controleaza daca textul din edit control poate sa fie schimbat sau nu")]
+        [Description("Controls whether the text in the edit control can be changed or not.")]
         public bool ReadOnly
         {
             get { return _ReadOnly; }
             set
             {
                 _ReadOnly = value;
-                if(tbCtrl != null) tbCtrl.ReadOnly = value;
+                if (tbCtrl != null)
+                    tbCtrl.ReadOnly = value;
             }
         }
 
         private bool _ShortcutsEnabled = true;
         [Browsable(true)]
-        [Description("Indica daca sunt activate shortcuturile la control.")]
+        [Description("Indicates whether shortcuts defined for the control are enabled.")]
         public bool ShortcutsEnabled
         {
             get { return _ShortcutsEnabled; }
@@ -98,8 +101,8 @@ namespace CustomUI.Controls
         }
 
         private bool _ShowBottomBorder = true;
-        [Browsable (true)]
-        [Description("Decide daca borderul de jos ar trebui desenat.")]
+        [Browsable(true)]
+        [Description("Decides whether the bottom border line should be drawn.")]
         public bool ShowBottomBorder
         {
             get { return _ShowBottomBorder; }
@@ -112,7 +115,7 @@ namespace CustomUI.Controls
 
         private bool _ShowTopBorder = true;
         [Browsable(true)]
-        [Description ("Decide daca borderul de sus trebuie desenat.")]
+        [Description("Decides whether the top border line should be drawn.")]
         public bool ShowTopBorder
         {
             get { return _ShowTopBorder; }
@@ -125,7 +128,7 @@ namespace CustomUI.Controls
 
         private HorizontalAlignment _TextAlignment;
         [Browsable(true)]
-        [Description("Indica daca textul ar trebui sa fie aliniat pentru edit control.")]
+        [Description("Indicates how the text should be aligned for edit controls.")]
         public HorizontalAlignment TextAlignment
         {
             get { return _TextAlignment; }
@@ -139,7 +142,7 @@ namespace CustomUI.Controls
 
         private bool _UseSystemPasswordChar = false;
         [Browsable(true)]
-        [Description("Indica daca textul din edit control ar trebui sa apara ca si caractere de parola implicite.")]
+        [Description("Indicates if the text in the edit control should appear as the default password character.")]
         public bool UseSystemPasswordChar
         {
             get { return _UseSystemPasswordChar; }
@@ -152,8 +155,8 @@ namespace CustomUI.Controls
         }
 
         private string _Watermark = string.Empty;
-        [Browsable (true)]
-        [Description("Permite adaugarea unui watermark in campul de text al TextBox-ului cand este gol.")]
+        [Browsable(true)]
+        [Description("Allows adding a watermark to the TextBox field when it is empty.")]
         public string Watermark
         {
             get { return _Watermark; }
@@ -166,7 +169,7 @@ namespace CustomUI.Controls
 
         private Color _WatermarkColor;
         [Browsable(true)]
-        [Description("Permite adaugarea unui watermark la campul de text al TextBox-ului cand este gol.")]
+        [Description("Allows adding a watermark to the TextBox field when it is empty.")]
         public Color WatermarkColor
         {
             get { return _WatermarkColor; }
@@ -296,7 +299,7 @@ namespace CustomUI.Controls
         {
             base.OnResize(e);
 
-            if (_MultiLine)
+            if (_Multiline)
                 tbCtrl.Height = Height - 30;
             else
                 Height = tbCtrl.Height + 32;
@@ -315,6 +318,7 @@ namespace CustomUI.Controls
             if (watermarkContainer != null)
                 watermarkContainer.Invalidate();
         }
+
         #endregion
 
         public CTextBox()
@@ -340,7 +344,7 @@ namespace CustomUI.Controls
         }
 
         /// <summary>
-        /// Adauga un <see cref="TextBox"/> control la acest control.
+        /// Adds an actual <see cref="TextBox"/> control to this control.
         /// </summary>
         private void AddTextBox()
         {
@@ -368,7 +372,7 @@ namespace CustomUI.Controls
         }
 
         /// <summary>
-        /// Adauga un container de watermark.
+        /// Adds a watermark container.
         /// </summary>
         private void DrawWatermark()
         {
@@ -383,7 +387,7 @@ namespace CustomUI.Controls
         }
 
         /// <summary>
-        /// Sterge un watermark container.
+        /// Removes the watermark container.
         /// </summary>
         private void RemoveWatermark()
         {
@@ -395,10 +399,10 @@ namespace CustomUI.Controls
         }
 
         /// <summary>
-        /// Deseneaza borderul controlului.
+        /// Draws the borders of the contorl.
         /// </summary>
         /// 
-        /// <param name="g">Referionta la clasa Graphics.</param>
+        /// <param name="g">Reference to the Graphics class.</param>
         private void DrawBorder(Graphics g)
         {
             using (var border = new Pen(borderColor))
@@ -418,13 +422,13 @@ namespace CustomUI.Controls
                 }
             }
         }
-        /// <summary>
-        /// Daca <see cref="Image"/> property value e specificata imaginea va fi afisata.
-        /// </summary>
-        /// 
-        /// <param name="g">Referinta grafica.</param>
-        /// 
 
+        /// <summary>
+        /// If the <see cref="Image"/> property value is specified, the image
+        /// will be drawn.
+        /// /// </summary>
+        /// 
+        /// <param name="g">Reference to the Graphics class.</param>
         private void DrawImage(Graphics g)
         {
             if (Image == null)

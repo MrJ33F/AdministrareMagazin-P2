@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Permissions;
 using AdministrareMagazin.Classes.Natives;
 using AdministrareMagazin.Classes.EF;
-using AdministrareMagazin.Forms;
+using System.Security.Permissions;
 
-namespace AdministrareMagazin
+namespace AdministrareMagazin.Forms
 {
-    public partial class LoginForm : Form
+    public partial class NewUser : Form
     {
 
         #region Fields
@@ -33,10 +32,10 @@ namespace AdministrareMagazin
 
         #endregion
 
-        public LoginForm()
+        public NewUser()
         {
             InitializeComponent();
-            LoadLoginData();
+
 
             //Setari animator
             Animator.AnimationType = AnimatorNS.AnimationType.Transparent;
@@ -44,14 +43,15 @@ namespace AdministrareMagazin
             Animator.MaxAnimationTime = 1000;
             Animator.TimeStep = 0.02F;
 
-            loginButton.Enabled = false;
+            addUserButton.Enabled = false;
             usernameTextBox.TextChanged += ValidateInput;
             passwordTextBox.TextChanged += ValidateInput;
+            emailTextBox.TextChanged += ValidateInput;
+            numeTextBox.TextChanged += ValidateInput;
+            prenumeTextBox.TextChanged += ValidateInput;
+            adresaTextBox.TextChanged += ValidateInput;
+            telefonTextBox.TextChanged += ValidateInput;
 
-            //Incarcare font 
-            var customFont = FontLoader.SetFont(22, FontStyle.Regular, GraphicsUnit.Point, 1);
-            loginToLabel.Font = customFont;
-            welcomeLabel.Font = customFont;
 
             //Setam opacitatea la form la 0 si dam drumul la timer, urmand ca acesta sa se incrementeze in momentul cand aplicatia se deschide
             Opacity = 0;
@@ -62,16 +62,16 @@ namespace AdministrareMagazin
                 Enabled = true,
             };
 
-            //Adaugam un handler dinamic la .Tick event
             tmrFadeIn.Tick += FadeIn_Tick;
         }
 
         #region Metode
+
         private void FadeIn_Tick(object sender, EventArgs e)
         {
             //Crestem opacitatea pana la 100% si dupa oprim timerul
             Opacity += 0.05;
-            if(Opacity == 1)
+            if (Opacity == 1)
             {
                 tmrFadeIn.Stop();
                 tmrFadeIn.Enabled = false;
@@ -79,48 +79,55 @@ namespace AdministrareMagazin
             }
         }
 
-        private void LoadLoginData()
+        private void ValidateInput(object sender, EventArgs e)
         {
-            using(UtilizatorDbContext db = new UtilizatorDbContext())
+            addUserButton.Enabled = !(usernameTextBox.Text == String.Empty && passwordTextBox.Text == String.Empty && emailTextBox.Text == String.Empty && numeTextBox.Text == String.Empty && prenumeTextBox.Text == String.Empty
+                 && adresaTextBox.Text == String.Empty && telefonTextBox.Text == String.Empty);
+        }
+        #endregion
+
+        private void addUserButton_Click(object sender, EventArgs e)
+        {
+            using(UtilizatorDbContext context = new UtilizatorDbContext())
             {
-                var result = from selected in db.Utilizatori
-                             select new
-                             {
-                                 selected.Id,
-                                 selected.Username,
-                                 selected.Password,
-                                 selected.Email,
-                                 selected.Nume,
-                                 selected.Prenume,
-                                 selected.Telefon
-                             };
-                loginData.DataSource = result.ToList();
+                Utilizator u = new Utilizator();
+                u.Username = usernameTextBox.Text;
+                u.Password = passwordTextBox.Text;
+                u.Email = emailTextBox.Text;
+                u.Nume = numeTextBox.Text;
+                u.Prenume = prenumeTextBox.Text;
+                u.Adresa = adresaTextBox.Text;
+                u.Telefon = telefonTextBox.Text;
+
+                context.Utilizatori.Add(u);
+                context.SaveChanges();
+            }
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void NewUser_Shown(object sender, EventArgs e)
+        {
+            // Animam controalele care au propietatea de visible = false dupa ce formul a fost incarcat si a devenit vizibil.
+            foreach (Control item in cPanel1.Controls)
+            {
+                if (item.Visible != true) Animator.Show(item);
             }
         }
 
-        #endregion
-
-        #region Form Events
-
-        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void NewUser_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // D-am unload la eventimentele utilizate precedent
             tmrFadeIn.Tick -= FadeIn_Tick;
             usernameTextBox.TextChanged -= ValidateInput;
             passwordTextBox.TextChanged -= ValidateInput;
+            emailTextBox.TextChanged -= ValidateInput;
+            numeTextBox.TextChanged -= ValidateInput;
+            prenumeTextBox.TextChanged -= ValidateInput;
+            adresaTextBox.TextChanged -= ValidateInput;
+            telefonTextBox.TextChanged -= ValidateInput;
         }
 
-        private void LoginForm_Shown(object sender, EventArgs e)
-        {
-            // Animam controalele care au propietatea de visible = false dupa ce formul a fost incarcat si a devenit vizibil.
-            foreach(Control item in cRightPanel.Controls)
-            {
-                if(item.Visible != true) Animator.Show(item);
-            }
-        }
-
-        #endregion
-
+        #region Security Related
         //Verifica daca Desktop Window manager este enabled.
         private static bool IsDwnCompositionEnabled()
         {
@@ -130,53 +137,6 @@ namespace AdministrareMagazin
             NativeMethods.DwmIsCompositionEnabled(out isEnabled);
 
             return isEnabled;
-        }
-
-        private void ValidateInput(object sender, EventArgs e)
-        {
-            loginButton.Enabled = !(usernameTextBox.Text == String.Empty || passwordTextBox.Text == String.Empty);
-        }
-
-        private void Wait(int seconds)
-        {
-            if (seconds < 1) return;
-
-            var timeToWait = DateTime.Now.AddSeconds(seconds);
-            while (DateTime.Now < timeToWait) System.Windows.Forms.Application.DoEvents();
-
-            
-        }
-
-        private void loginButton_Click(object sender, EventArgs e)
-        {
-            usernameTextBox.Enabled = false;
-            passwordTextBox.Enabled = false;
-            loginButton.Enabled = false;
-
-            Animator.Hide(loginButton, true, AnimatorNS.Animation.HorizSlide);
-            Animator.Hide(linkForgotPass, true, AnimatorNS.Animation.Transparent);
-            Animator.Hide(linkNewAccount, true, AnimatorNS.Animation.Transparent);
-
-            Wait(4);
-
-            //Nu sunt sigur daca baza de date se transfera (e un failsafe hardcoded)
-            if (usernameTextBox.Text == "admin" && passwordTextBox.Text == "admin0000")
-            {
-
-            }
-            else
-            {
-
-            }
-
-            Animator.Hide(labelLogginIn, true);
-            Animator.Show(loginButton, true, AnimatorNS.Animation.HorizSlide);
-            Animator.Show(linkForgotPass, true, AnimatorNS.Animation.Transparent);
-            Animator.Show(linkNewAccount, true, AnimatorNS.Animation.Transparent);
-
-            usernameTextBox.Enabled = true;
-            passwordTextBox.Enabled = true;
-            loginButton.Enabled = true;
         }
 
         protected override CreateParams CreateParams
@@ -224,19 +184,13 @@ namespace AdministrareMagazin
                     // Change the title bar text color according to whether the
                     // window is active or inactive
                     if (m.WParam == IntPtr.Zero)
-                        loginContainer.TitleBarColor = Color.DarkGray;
+                        newUserContainer.TitleBarColor = Color.DarkGray;
                     else
-                        loginContainer.TitleBarColor = Color.Gainsboro;
+                        newUserContainer.TitleBarColor = Color.Gainsboro;
                     break;
             }
             base.WndProc(ref m);
         }
-
-        private void linkNewAccount_Click(object sender, EventArgs e)
-        {
-            NewUser newUsr = new NewUser();
-            if (newUsr.ShowDialog() == DialogResult.OK) { LoadLoginData(); 
-                MessageBox.Show("Bine ati venit!", "Ati fost inregistrat/inregistrata cu succes."); }
-        }
+        #endregion        
     }
-}       
+}
